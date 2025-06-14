@@ -9,6 +9,10 @@ const ForgotPassword = lazy(() => import("@/components/auth/ForgotPassword"));
 const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
 const AppointmentsPage = lazy(() => import("@/pages/AppointmentsPage"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
+const UserList = lazy(() => import("@/pages/users/UserList"));
+const StoreList = lazy(() => import("@/pages/stores/StoreList"));
+const RolesList = lazy(() => import("@/pages/settings/RolesList"));
+const PermissionsList = lazy(() => import("@/pages/settings/PermissionsList"));
 
 // Auth routes
 export const authRoutes: RouteObject[] = [
@@ -41,20 +45,25 @@ export const adminRoutes: RouteObject[] = [
                 element: <AppointmentsPage />,
             },
             {
-                path: "stores",
-                element: <div>Stores Management (Coming Soon)</div>,
-            },
-            {
                 path: "users",
-                element: <div>User Management (Coming Soon)</div>,
+                element: <UserList />,
             },
             {
-                path: "reports",
-                element: <div>Reports (Coming Soon)</div>,
+                path: "stores",
+                element: <StoreList />,
             },
             {
                 path: "settings",
-                element: <div>Settings (Coming Soon)</div>,
+                children: [
+                    {
+                        path: "roles",
+                        element: <RolesList />,
+                    },
+                    {
+                        path: "permissions",
+                        element: <PermissionsList />,
+                    },
+                ],
             },
         ],
     },
