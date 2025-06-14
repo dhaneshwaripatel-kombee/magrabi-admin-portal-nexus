@@ -117,6 +117,16 @@ const LoginForm = () => {
                             />
                         </div>
 
+                        <div className="text-right">
+                            <a
+                                href="/forgot-password"
+                                className="text-sm text-blue-600 hover:underline"
+                                data-test-id="forgot-password-link"
+                            >
+                                Forgot Password?
+                            </a>
+                        </div>
+
                         <Button
                             type="submit"
                             className="w-full"
@@ -127,11 +137,11 @@ const LoginForm = () => {
                         </Button>
                     </form>
 
-                    <div className="mt-6 text-center text-sm text-gray-600">
+                    {/* <div className="mt-6 text-center text-sm text-gray-600">
                         <p>Demo Credentials:</p>
                         <p>Admin: admin@magrabi.com / admin123</p>
                         <p>Store Manager: store@magrabi.com / store123</p>
-                    </div>
+                    </div> */}
                 </CardContent>
             </Card>
         </div>
