@@ -1,9 +1,13 @@
+
 import React, { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import DashboardStats from "@/components/dashboard/DashboardStats";
+import QuickActions from "@/components/dashboard/QuickActions";
+import RecentActivity from "@/components/dashboard/RecentActivity";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, TrendingUp, Users, Settings } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Calendar, Bell, Filter, Download } from "lucide-react";
 
 const AdminDashboard = () => {
     const { user, token } = useAuth();
@@ -45,158 +49,94 @@ const AdminDashboard = () => {
     };
 
     return (
-        <div className="space-y-6" data-test-id="admin-dashboard">
-            <div className="flex items-center justify-between">
-                <h1
-                    className="text-3xl font-bold text-gray-900"
-                    data-test-id="dashboard-title"
-                >
-                    {t("dashboard.title")}
-                </h1>
-                <div
-                    className="text-sm text-gray-500"
-                    data-test-id="welcome-message"
-                >
-                    Welcome back, {user?.name}
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-6" data-test-id="admin-dashboard">
+            {/* Header Section */}
+            <div className="mb-8">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-800 bg-clip-text text-transparent mb-2" data-test-id="dashboard-title">
+                            {t("dashboard.title")}
+                        </h1>
+                        <p className="text-gray-600 text-lg" data-test-id="welcome-message">
+                            Welcome back, <span className="font-semibold text-gray-800">{user?.name}</span>
+                        </p>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                        <Button variant="outline" size="sm" className="bg-white/80 hover:bg-white border-gray-200">
+                            <Filter className="h-4 w-4 mr-2" />
+                            Filter
+                        </Button>
+                        <Button variant="outline" size="sm" className="bg-white/80 hover:bg-white border-gray-200">
+                            <Download className="h-4 w-4 mr-2" />
+                            Export
+                        </Button>
+                        <Button size="sm" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+                            <Bell className="h-4 w-4 mr-2" />
+                            Notifications
+                        </Button>
+                    </div>
                 </div>
             </div>
 
+            {/* Stats Section */}
             <DashboardStats data={dashboardData} />
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Recent Appointments */}
-                <Card data-test-id="recent-appointments-card">
-                    <CardHeader>
-                        <CardTitle
-                            className="flex items-center space-x-2"
-                            data-test-id="recent-appointments-title"
-                        >
-                            <Calendar className="h-5 w-5" />
-                            <span>Recent Appointments</span>
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div
-                            className="space-y-4"
-                            data-test-id="appointments-list"
-                        >
-                            <div
-                                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
-                                data-test-id="appointment-item-1"
-                            >
-                                <div>
-                                    <p className="font-medium">
-                                        Ahmed Al-Rashid
-                                    </p>
-                                    <p className="text-sm text-gray-600">
-                                        Eye Exam - 10:00 AM
-                                    </p>
-                                </div>
-                                <div className="text-right">
-                                    <p className="text-sm font-medium">Today</p>
-                                    <p className="text-xs text-gray-500">
-                                        Riyadh Main
-                                    </p>
-                                </div>
-                            </div>
-                            <div
-                                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
-                                data-test-id="appointment-item-2"
-                            >
-                                <div>
-                                    <p className="font-medium">Fatima Hassan</p>
-                                    <p className="text-sm text-gray-600">
-                                        Contact Lens - 11:30 AM
-                                    </p>
-                                </div>
-                                <div className="text-right">
-                                    <p className="text-sm font-medium">Today</p>
-                                    <p className="text-xs text-gray-500">
-                                        Jeddah Branch
-                                    </p>
-                                </div>
-                            </div>
-                            <div
-                                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
-                                data-test-id="appointment-item-3"
-                            >
-                                <div>
-                                    <p className="font-medium">
-                                        Mohammed Al-Zahrani
-                                    </p>
-                                    <p className="text-sm text-gray-600">
-                                        Frame Selection - 2:00 PM
-                                    </p>
-                                </div>
-                                <div className="text-right">
-                                    <p className="text-sm font-medium">
-                                        Tomorrow
-                                    </p>
-                                    <p className="text-xs text-gray-500">
-                                        Dammam Branch
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
+            {/* Main Content Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Left Column - Quick Actions */}
+                <div className="lg:col-span-1">
+                    <QuickActions />
+                </div>
 
-                {/* Quick Actions */}
-                <Card data-test-id="quick-actions-card">
+                {/* Right Column - Recent Activity */}
+                <div className="lg:col-span-2">
+                    <RecentActivity />
+                </div>
+            </div>
+
+            {/* Today's Schedule Section */}
+            <div className="mt-8">
+                <Card className="group hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm">
                     <CardHeader>
-                        <CardTitle
-                            className="flex items-center space-x-2"
-                            data-test-id="quick-actions-title"
-                        >
-                            <Settings className="h-5 w-5" />
-                            <span>Quick Actions</span>
+                        <CardTitle className="flex items-center justify-between" data-test-id="todays-schedule-title">
+                            <div className="flex items-center space-x-2 text-gray-800">
+                                <Calendar className="h-5 w-5" />
+                                <span>Today's Schedule</span>
+                            </div>
+                            <Button variant="outline" size="sm" className="bg-white/80 hover:bg-white">
+                                View All
+                            </Button>
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div
-                            className="grid grid-cols-2 gap-4"
-                            data-test-id="quick-actions-grid"
-                        >
-                            <a
-                                href="/admin/appointments"
-                                className="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
-                                data-test-id="manage-appointments-link"
-                            >
-                                <Calendar className="h-8 w-8 text-blue-600 mb-2" />
-                                <span className="text-sm font-medium text-blue-900">
-                                    Manage Appointments
-                                </span>
-                            </a>
-                            <a
-                                href="/admin/users"
-                                className="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
-                                data-test-id="user-management-link"
-                            >
-                                <Users className="h-8 w-8 text-green-600 mb-2" />
-                                <span className="text-sm font-medium text-green-900">
-                                    User Management
-                                </span>
-                            </a>
-                            <a
-                                href="/admin/reports"
-                                className="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
-                                data-test-id="view-reports-link"
-                            >
-                                <TrendingUp className="h-8 w-8 text-purple-600 mb-2" />
-                                <span className="text-sm font-medium text-purple-900">
-                                    View Reports
-                                </span>
-                            </a>
-                            <a
-                                href="/admin/stores"
-                                className="flex flex-col items-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors"
-                                data-test-id="store-settings-link"
-                            >
-                                <Settings className="h-8 w-8 text-orange-600 mb-2" />
-                                <span className="text-sm font-medium text-orange-900">
-                                    Store Settings
-                                </span>
-                            </a>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-test-id="appointments-grid">
+                            {[
+                                { time: "09:00 AM", patient: "Ahmed Al-Rashid", service: "Eye Exam", status: "confirmed", location: "Riyadh Main" },
+                                { time: "10:30 AM", patient: "Fatima Hassan", service: "Contact Lens", status: "in-progress", location: "Jeddah Branch" },
+                                { time: "02:00 PM", patient: "Mohammed Al-Zahrani", service: "Frame Selection", status: "upcoming", location: "Dammam Branch" }
+                            ].map((appointment, index) => (
+                                <div key={index} className="group/card p-6 rounded-2xl bg-gradient-to-br from-white to-gray-50 border border-gray-100 hover:border-blue-200 hover:shadow-lg transition-all duration-300" data-test-id={`appointment-item-${index + 1}`}>
+                                    <div className="flex items-start justify-between mb-4">
+                                        <div className="flex-1">
+                                            <h3 className="font-semibold text-gray-900 group-hover/card:text-blue-900 transition-colors">
+                                                {appointment.patient}
+                                            </h3>
+                                            <p className="text-sm text-gray-600 mb-1">{appointment.service}</p>
+                                            <p className="text-xs text-gray-500">{appointment.location}</p>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="text-sm font-medium text-blue-600">{appointment.time}</p>
+                                            <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
+                                                appointment.status === 'confirmed' ? 'bg-green-100 text-green-800' :
+                                                appointment.status === 'in-progress' ? 'bg-yellow-100 text-yellow-800' :
+                                                'bg-blue-100 text-blue-800'
+                                            }`}>
+                                                {appointment.status.replace('-', ' ')}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </CardContent>
                 </Card>
