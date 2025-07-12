@@ -6,6 +6,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('app');
 // });
 
-Route::get('/', function () {
+Route::get('/home', function () {
     return view('welcome'); // or your desired landing view
 });

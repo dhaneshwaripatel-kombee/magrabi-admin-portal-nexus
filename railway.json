@@ -4,7 +4,7 @@
     },
     "deploy": {
         "startCommand": "php -S 0.0.0.0:8080 -t public",
-        "healthcheckPath": "/",
+        "healthcheckPath": "/home",
         "restartPolicyType": "ON_FAILURE",
         "restartPolicyMaxRetries": 10
     },
