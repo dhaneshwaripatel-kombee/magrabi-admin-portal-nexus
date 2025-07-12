@@ -4,7 +4,7 @@
     },
     "deploy": {
         "startCommand": "php artisan serve --host=0.0.0.0 --port=8080",
-        "healthcheckPath": "/api/health",
+        "healthcheckPath": "/",
         "restartPolicyType": "ON_FAILURE",
         "restartPolicyMaxRetries": 10
     },
@@ -12,21 +12,22 @@
         "phases": {
             "setup": {
                 "nixPkgs": [
-                    "php",
+                    "php82",
                     "composer",
-                    "nodejs"
+                    "nodejs_20"
                 ]
             },
             "install": {
                 "cmds": [
-                    "composer install --no-dev",
-                    "php artisan optimize:clear",
+                    "composer install --no-dev --prefer-dist --optimize-autoloader",
+                    "cp .env.example .env",
+                    "php artisan key:generate",
+                    "php artisan migrate --force",
                     "php artisan config:clear",
                     "php artisan config:cache",
                     "php artisan route:cache",
                     "php artisan event:cache",
-                    "php artisan view:cache",
-                    "php artisan migrate --force"
+                    "php artisan view:cache"
                 ]
             }
         }

@@ -20,7 +20,3 @@ Route::middleware('auth:api')->group(function () {
         Route::apiResource('permissions', PermissionController::class);
     });
 });
-
-Route::get('/health', function () {
-    return response()->json(['status' => 'ok']);
-});
