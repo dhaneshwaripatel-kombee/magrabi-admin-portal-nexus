@@ -7,5 +7,5 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', function () {
-    return response()->json(['status' => 'ok']);
+    return view('welcome'); // or your desired landing view
 });
